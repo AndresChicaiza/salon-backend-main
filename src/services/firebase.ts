@@ -3,8 +3,9 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 if (!admin.apps.length) {
-    const privateKey = process.env.FIREBASE_PRIVATE_KEY
-        ? process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n').replace(/"/g, '')
+    const privateKeyBase64 = process.env.FIREBASE_PRIVATE_KEY_BASE64
+    const privateKey = privateKeyBase64
+        ? Buffer.from(privateKeyBase64, 'base64').toString('utf8')
         : undefined
 
     admin.initializeApp({
